@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="container">
+      <section class="brandLogo">
+        <img src="./threads.png" alt="appLogo" />
+      </section>
+      <section class="authentication">
+        <h1>Welcome Back!</h1>
+        <div class="form">
+          <p class="formIndicate">Log In</p>
+          <form id="signupForm">
+            <label for="email" class="label">Email</label>
+            <input type="email" id="emailInput" class="emailInput" />
+            <label for="password" class="label">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="passwordInput"
+              class="passwordInput"
+            />
+            <input type="submit" value="Login" id="btn" class="btn" />
+          </form>
+          <div class="anchor">
+            <p>Don't have account?</p>
+            <a href="./index.html">Signup</a>
+          </div>
+        </div>
+      </section>
+    </section>
+    <script type="module" src="./login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: aliceblue;
+}
+header {
+  background: aliceblue;
+  box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
+  padding: 0.5em 0.5em 0.5em 1em;
+}
+.logo {
+  /* width: 10em;
+  height: 10em; */
+}
+.createPostForm {
+  width: 100%;
+  position: -webkit-sticky;
+  position: fixed;
+  bottom: 3%;
+  display: flex;
+  justify-content: center;
+}
+.createPostForm form {
+  display: flex;
+  gap: 2em;
+}
+.textInput {
+  width: 40em;
+  font-size: 1.4rem;
+  padding: 0.7em;
+  border-radius: 6px;
+  background: rgb(245, 240, 233);
+  border: none;
+  outline: none;
+}
+.postSubmitBtn {
+  font-size: 3.3em;
+  border: none;
+  color: rgb(25, 179, 5);
+  cursor: pointer;
+}
+.post {
+  width: 37em;
+  margin: 0.5em;
+  border-radius: 8px;
+  box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  padding: 1em 1em 0.4em 1em;
+  overflow-y: hidden;
+}
+.userInfo {
+  display: flex;
+  gap: 6px;
+}
+.userImgSpan {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  width: 1.1em;
+  height: 1.1em;
+  font-size: 2.4rem;
+  color: white;
+  border-radius: 50%;
+  background: rgb(206, 206, 206);
+  /* font-family: "Times New Roman", Times, serif; */
+}
+.userNameSpan {
+  font-size: 1.2rem;
+}
+.postDeleteBtn {
+  font-size: 1.1rem;
+  background: transparent;
+  color: red;
+  border: none;
+  cursor: pointer;
+}
+.postText {
+  padding: 1em;
+  font-size: 1.2rem;
+}
+.reactIconsDiv {
+  display: flex;
+  gap: 0.6em;
+  padding: 0.5em;
+}

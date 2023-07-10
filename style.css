@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+}
+.brandLogo {
+  width: 40%;
+  /* background: url(./threads.png);
+  background-repeat: no-repeat;
+  background-size: contain; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+}
+.brandLogo img {
+  width: 35em;
+}
+.authentication {
+  width: 60%;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1em 1.5em;
+}
+h1 {
+  font-size: 3.5rem;
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form {
+  width: 30em;
+  padding: 1em;
+  background-color: aliceblue;
+  box-shadow: 2px 3px 45px rgba(255, 255, 255, 0.219);
+  border-radius: 7px;
+  margin: 1.5em 2em;
+}
+.formIndicate {
+  font-size: 2.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+.form form {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  /* align-items: center; */
+}
+.label {
+  font-size: 1.4rem;
+}
+.emailInput {
+  width: 18em;
+  padding: 0.6em;
+  font-size: 1.2rem;
+  outline: none;
+  border: 2px solid rgb(121, 119, 119);
+  border-radius: 6px;
+  margin-bottom: 0.7em;
+}
+.passwordInput {
+  width: 18em;
+  padding: 0.6em;
+  font-size: 1.2rem;
+  outline: none;
+  border: 2px solid rgb(121, 119, 119);
+  /* border: 2px solid rgb(97, 96, 96); */
+  border-radius: 6px;
+  margin-bottom: 0.7em;
+}
+.btn {
+  width: 6em;
+  font-size: 1.3rem;
+  padding: 0.5em;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  transition: all 0.3s ease-in;
+}
+.btn:hover {
+  transform: translate(20px);
+}
+.anchor {
+  display: flex;
+  gap: 0.3em;
+}
+.anchor p {
+  font-size: 1.2rem;
+}
+.anchor a {
+  color: black;
+  font-size: 1.5rem;
+}
+.anchor a:hover {
+  color: blue;
+}
