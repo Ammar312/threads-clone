@@ -9,7 +9,12 @@ import {
   serverTimestamp,
   doc,
   deleteDoc,
+  getDoc,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDTCoIf1kpa7RrmJ-ChKag9vUraUiQOv3M",
@@ -27,21 +32,36 @@ const form = document.querySelector("#form");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const textInput = document.querySelector("#textInput").value;
+  const auth = getAuth();
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      const userName = sessionStorage.getItem("currentUserName");
+      // console.log(userName);
 
-  try {
-    const docRef = await addDoc(collection(db, "thread"), {
-      text: textInput,
-      createdAt: serverTimestamp(),
-    });
-    form.reset();
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+      try {
+        const docRef = await addDoc(collection(db, "thread"), {
+          text: textInput,
+          createdAt: serverTimestamp(),
+          userUid: uid,
+          currentUserName: userName,
+        });
+        form.reset();
+
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
 });
-
 window.addEventListener("load", () => {
-  const q = query(collection(db, "thread"), orderBy("createdAt"));
+  const q = query(collection(db, "thread"), orderBy("createdAt", "desc"));
   const postSection = document.querySelector("#postSection");
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     postSection.innerHTML = "";
@@ -57,7 +77,9 @@ window.addEventListener("load", () => {
       userImgSpan.classList.add("userImgSpan");
       const userNameSpan = document.createElement("span");
       userNameSpan.classList.add("userNameSpan");
-      userNameSpan.innerText = "Username";
+      userNameSpan.innerText = `${
+        doc.data().currentUserName ? doc.data().currentUserName : "username"
+      }`;
       userInfo.appendChild(userImgSpan);
       userInfo.appendChild(userNameSpan);
       const postDeleteBtn = document.createElement("button");
@@ -79,16 +101,9 @@ window.addEventListener("load", () => {
       const heartSpan = document.createElement("span");
       heartSpan.classList.add("reactIcon");
       heartSpan.innerHTML = `<i class="bi bi-heart"></i>`;
-      const commentSpan = document.createElement("span");
-      commentSpan.classList.add("reactIcon");
-      commentSpan.innerHTML = `<i class="bi bi-chat-right"></i>`;
-      const teleSpan = document.createElement("span");
-      teleSpan.classList.add("reactIcon");
-      teleSpan.innerHTML = `<i class="bi bi-chat-right"></i>`;
       reactIconsDiv.appendChild(likeSpan);
       reactIconsDiv.appendChild(heartSpan);
-      reactIconsDiv.appendChild(commentSpan);
-      reactIconsDiv.appendChild(teleSpan);
+
       post.appendChild(head);
       post.appendChild(postText);
       post.appendChild(reactIconsDiv);
@@ -98,6 +113,28 @@ window.addEventListener("load", () => {
     });
   });
 });
+// const deletePostFunc = async (id) => {
+
+//   await deleteDoc(doc(db, "thread", id));
+// };
+// Retrieve the UID from session storage
+const currentUserUID = sessionStorage.getItem("currentUserUID");
+
 const deletePostFunc = async (id) => {
-  await deleteDoc(doc(db, "thread", id));
+  const postDocRef = doc(db, "thread", id);
+
+  try {
+    const postSnapshot = await getDoc(postDocRef);
+    const postData = postSnapshot.data();
+
+    // Check if the current user is the owner of the post
+    if (postData.userUid === currentUserUID) {
+      await deleteDoc(postDocRef);
+      console.log("Post deleted successfully");
+    } else {
+      console.log("You are not authorized to delete this post");
+    }
+  } catch (error) {
+    console.error("Error deleting post: ", error);
+  }
 };

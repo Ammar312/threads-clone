@@ -28,8 +28,15 @@ signupForm.addEventListener("submit", (e) => {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
+      console.log(user);
+      const currentUserUID = user.uid;
+      const currentUserName = user.displayName;
+      sessionStorage.setItem("currentUserUID", currentUserUID);
+      sessionStorage.setItem("currentUserName", currentUserName);
+      console.log(currentUserName);
       location.assign("home/home.html");
       // ...
+      signupForm.reset();
     })
     .catch((error) => {
       const errorCode = error.code;
