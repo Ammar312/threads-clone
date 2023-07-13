@@ -57,7 +57,7 @@ window.addEventListener("load", () => {
       userImgSpan.classList.add("userImgSpan");
       const userNameSpan = document.createElement("span");
       userNameSpan.classList.add("userNameSpan");
-      userNameSpan.innerText = "Ammar Ul Mustafa";
+      userNameSpan.innerText = "Username";
       userInfo.appendChild(userImgSpan);
       userInfo.appendChild(userNameSpan);
       const postDeleteBtn = document.createElement("button");
