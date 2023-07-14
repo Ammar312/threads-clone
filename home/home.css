@@ -62,11 +62,12 @@ header {
   gap: 2em;
 }
 .textInput {
-  width: 40em;
-  font-size: 1.4rem;
+  width: 35em;
+  font-size: 1.2rem;
   padding: 0.7em;
   border-radius: 6px;
-  background: rgb(245, 240, 233);
+  background: rgb(255, 255, 255);
+  box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
   border: none;
   outline: none;
 }
@@ -78,7 +79,7 @@ header {
 }
 .post {
   width: 37em;
-  margin: 0.5em;
+  margin: 0.8em;
   border-radius: 8px;
   box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
 }
@@ -121,6 +122,6 @@ header {
 }
 .reactIconsDiv {
   display: flex;
-  gap: 0.6em;
+  justify-content: space-around;
   padding: 0.5em;
 }

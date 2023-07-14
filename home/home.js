@@ -48,6 +48,8 @@ form.addEventListener("submit", async (e) => {
           createdAt: serverTimestamp(),
           userUid: uid,
           currentUserName: userName,
+          likeIncrement: 0,
+          heartIncrement: 0,
         });
         form.reset();
 
@@ -111,6 +113,8 @@ window.addEventListener("load", () => {
       postSection.appendChild(post);
 
       postDeleteBtn.addEventListener("click", () => deletePostFunc(doc.id));
+      likeSpan.addEventListener("click", () => likeIncrement(doc.id));
+      heartSpan.addEventListener("click", () => heartIncrement(doc.id));
     });
   });
 });
@@ -159,3 +163,16 @@ user.addEventListener("mouseover", () => {
 document.querySelector("body").addEventListener("click", () => {
   document.querySelector("#logout").style.display = "none";
 });
+
+const likeIncrement = async (id) => {
+  const washingtonRef = doc(db, "thread", id);
+  await updateDoc(washingtonRef, {
+    likeIncrement: increment(1),
+  });
+};
+const heartIncrement = async (id) => {
+  const washingtonRef = doc(db, "thread", id);
+  await updateDoc(washingtonRef, {
+    heartIncrement: increment(1),
+  });
+};
