@@ -14,6 +14,7 @@ import {
 import {
   getAuth,
   onAuthStateChanged,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -113,10 +114,6 @@ window.addEventListener("load", () => {
     });
   });
 });
-// const deletePostFunc = async (id) => {
-
-//   await deleteDoc(doc(db, "thread", id));
-// };
 // Retrieve the UID from session storage
 const currentUserUID = sessionStorage.getItem("currentUserUID");
 
@@ -138,3 +135,27 @@ const deletePostFunc = async (id) => {
     console.error("Error deleting post: ", error);
   }
 };
+
+const logout = document.querySelector("#logout");
+logout.addEventListener("click", () => {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+      sessionStorage.removeItem("currentUserName");
+      location.replace("../login.html");
+    })
+    .catch((error) => {
+      // An error happened.
+    });
+});
+const userNameHead = sessionStorage.getItem("currentUserName");
+document.querySelector("#userName").innerText = userNameHead;
+
+const user = document.querySelector("#user");
+user.addEventListener("mouseover", () => {
+  document.querySelector("#logout").style.display = "block";
+});
+document.querySelector("body").addEventListener("click", () => {
+  document.querySelector("#logout").style.display = "none";
+});

@@ -9,9 +9,41 @@ body {
   background-color: aliceblue;
 }
 header {
-  background: aliceblue;
+  background: black;
   box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
-  padding: 0.5em 0.5em 0.5em 1em;
+  padding: 0.5em 1em 0.5em 1em;
+  display: flex;
+  justify-content: space-between;
+}
+.logout {
+  background: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userImg {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  width: 1.1em;
+  height: 1.1em;
+  font-size: 2.4rem;
+  color: blue;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  overflow-y: hidden;
+}
+.userName {
+  font-size: 1rem;
+  color: white;
 }
 .logo {
   /* width: 10em;
