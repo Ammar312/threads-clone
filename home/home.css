@@ -125,3 +125,15 @@ header {
   justify-content: space-around;
   padding: 0.5em;
 }
+.likeDiv {
+  display: flex;
+  /* gap: 1em; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.reactIcon {
+}
+.numbers {
+  /* display: none; */
+}

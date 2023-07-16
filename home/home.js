@@ -10,6 +10,10 @@ import {
   doc,
   deleteDoc,
   getDoc,
+  updateDoc,
+  increment,
+  arrayUnion,
+  arrayRemove,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 import {
   getAuth,
@@ -50,6 +54,8 @@ form.addEventListener("submit", async (e) => {
           currentUserName: userName,
           likeIncrement: 0,
           heartIncrement: 0,
+          likeArray: [],
+          heartArray: [],
         });
         form.reset();
 
@@ -98,14 +104,40 @@ window.addEventListener("load", () => {
 
       const reactIconsDiv = document.createElement("div");
       reactIconsDiv.classList.add("reactIconsDiv");
+
+      const likeDiv = document.createElement("div");
+      likeDiv.classList.add("likeDiv");
       const likeSpan = document.createElement("span");
       likeSpan.classList.add("reactIcon");
       likeSpan.innerHTML = `<i class="bi bi-hand-thumbs-up"></i>`;
+      const likeNumbersSpan = document.createElement("span");
+      likeNumbersSpan.classList.add("numbers");
+      likeNumbersSpan.id = "likeNumbers";
+      if (doc.data().likeIncrement < 2) {
+        likeNumbersSpan.innerText = `${doc.data().likeIncrement} Like`;
+      } else {
+        likeNumbersSpan.innerText = `${doc.data().likeIncrement} Likes`;
+      }
+      likeDiv.appendChild(likeSpan);
+      likeDiv.appendChild(likeNumbersSpan);
+      const heartDiv = document.createElement("div");
+      heartDiv.classList.add("likeDiv");
       const heartSpan = document.createElement("span");
       heartSpan.classList.add("reactIcon");
       heartSpan.innerHTML = `<i class="bi bi-heart"></i>`;
-      reactIconsDiv.appendChild(likeSpan);
-      reactIconsDiv.appendChild(heartSpan);
+      const heartNumbersSpan = document.createElement("span");
+      heartNumbersSpan.classList.add("numbers");
+      if (doc.data().heartIncrement < 2) {
+        heartNumbersSpan.innerText = `${doc.data().heartIncrement} heart`;
+      } else {
+        heartNumbersSpan.innerText = `${doc.data().heartIncrement} hearts`;
+      }
+      heartNumbersSpan.id = "heartNumbers";
+      heartDiv.appendChild(heartSpan);
+      heartDiv.appendChild(heartNumbersSpan);
+
+      reactIconsDiv.appendChild(likeDiv);
+      reactIconsDiv.appendChild(heartDiv);
 
       post.appendChild(head);
       post.appendChild(postText);
@@ -113,8 +145,12 @@ window.addEventListener("load", () => {
       postSection.appendChild(post);
 
       postDeleteBtn.addEventListener("click", () => deletePostFunc(doc.id));
-      likeSpan.addEventListener("click", () => likeIncrement(doc.id));
-      heartSpan.addEventListener("click", () => heartIncrement(doc.id));
+      likeSpan.addEventListener("click", () =>
+        likeIncrement(doc.id, doc.data())
+      );
+      heartSpan.addEventListener("click", () =>
+        heartIncrement(doc.id, doc.data())
+      );
     });
   });
 });
@@ -164,15 +200,34 @@ document.querySelector("body").addEventListener("click", () => {
   document.querySelector("#logout").style.display = "none";
 });
 
-const likeIncrement = async (id) => {
+const likeIncrement = async (id, value) => {
+  const uid = sessionStorage.getItem("currentUserUID");
   const washingtonRef = doc(db, "thread", id);
-  await updateDoc(washingtonRef, {
-    likeIncrement: increment(1),
-  });
+  if (value.likeArray.includes(uid)) {
+    alert("You liked the post");
+    await updateDoc(washingtonRef, {
+      likeIncrement: increment(-1),
+    });
+    await updateDoc(washingtonRef, {
+      likeArray: arrayRemove(uid),
+    });
+  } else {
+    await updateDoc(washingtonRef, {
+      likeIncrement: increment(1),
+    });
+    await updateDoc(washingtonRef, {
+      likeArray: arrayUnion(uid),
+    });
+  }
 };
-const heartIncrement = async (id) => {
+const heartIncrement = async (id, value) => {
   const washingtonRef = doc(db, "thread", id);
   await updateDoc(washingtonRef, {
     heartIncrement: increment(1),
   });
+  // if (value.heartIncrement === 0) {
+  //   document.querySelector("#heartNumbers").style.display = "none";
+  // } else {
+  //   document.querySelector("#heartNumbers").style.display = "block";
+  // }
 };
