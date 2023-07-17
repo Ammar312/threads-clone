@@ -27,20 +27,33 @@ signupForm.addEventListener("submit", (e) => {
   signInWithEmailAndPassword(auth, emailInput, passwordInput)
     .then((userCredential) => {
       // Signed in
+      displayAlert("Login Successfully", "green");
       const user = userCredential.user;
       console.log(user);
       const currentUserUID = user.uid;
       const currentUserName = user.displayName;
       sessionStorage.setItem("currentUserUID", currentUserUID);
       sessionStorage.setItem("currentUserName", currentUserName);
-      console.log(currentUserName);
-      location.assign("home/home.html");
+      setTimeout(() => {
+        location.assign("home/home.html");
+      }, 2000);
       // ...
       signupForm.reset();
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      displayAlert(errorMessage, "red");
       // ..
     });
 });
+const alertBox = document.querySelector("#alertBox");
+const displayAlert = (txt, clss) => {
+  alertBox.textContent = txt;
+  alertBox.classList.add(clss);
+  // remove alert
+  setTimeout(() => {
+    alertBox.textContent = "";
+    alertBox.classList.remove(clss);
+  }, 2000);
+};

@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebas
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  sendEmailVerification,
   updateProfile,
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -41,6 +40,7 @@ signupForm.addEventListener("submit", (e) => {
           // ...
           const currentUserName = user.displayName;
           sessionStorage.setItem("currentUserName", currentUserName);
+          displayAlert("SignUp Successfully", "green");
         })
         .catch((error) => {
           // An error occurred
@@ -49,14 +49,27 @@ signupForm.addEventListener("submit", (e) => {
       const currentUserUID = user.uid;
       console.log(currentUserUID);
       sessionStorage.setItem("currentUserUID", currentUserUID);
-      location.assign("home/home.html");
+      setTimeout(() => {
+        location.assign("home/home.html");
+      }, 2000);
       signupForm.reset();
       // ...
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      displayAlert(errorMessage, "red");
 
       // ..
     });
 });
+const alertBox = document.querySelector("#alertBox");
+const displayAlert = (txt, clss) => {
+  alertBox.textContent = txt;
+  alertBox.classList.add(clss);
+  // remove alert
+  setTimeout(() => {
+    alertBox.textContent = "";
+    alertBox.classList.remove(clss);
+  }, 2000);
+};

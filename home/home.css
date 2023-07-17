@@ -200,7 +200,7 @@ header {
 }
 .green {
   visibility: visible;
-  background: linear-gradient(to right, #56ab2f, #a8e063);
+  background: #56ab2f;
 }
 .black {
   visibility: visible;

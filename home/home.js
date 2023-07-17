@@ -69,7 +69,7 @@ form.addEventListener("submit", async (e) => {
         form.reset();
 
         console.log("Document written with ID: ", docRef.id);
-        displayAlert("Posted", "green");
+        displayAlert("Posted Successfully", "green");
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -196,12 +196,15 @@ const deletePostFunc = async (id) => {
 
 const logout = document.querySelector("#logout");
 logout.addEventListener("click", () => {
+  displayAlert("Logout Successfully", "black");
   const auth = getAuth();
   signOut(auth)
     .then(() => {
       // Sign-out successful.
-      sessionStorage.removeItem("currentUserName");
-      location.replace("../login.html");
+      setTimeout(() => {
+        sessionStorage.removeItem("currentUserName");
+        location.replace("../login.html");
+      }, 2000);
     })
     .catch((error) => {
       // An error happened.
