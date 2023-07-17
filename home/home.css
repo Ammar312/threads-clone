@@ -14,6 +14,8 @@ header {
   padding: 0.5em 1em 0.5em 1em;
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
 }
 .logout {
   background: none;
@@ -42,7 +44,7 @@ header {
   overflow-y: hidden;
 }
 .userName {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: white;
 }
 .logo {
@@ -56,6 +58,9 @@ header {
   bottom: 3%;
   display: flex;
   justify-content: center;
+}
+.createPostForm {
+  display: none;
 }
 .createPostForm form {
   display: flex;
@@ -79,9 +84,12 @@ header {
 }
 .post {
   width: 37em;
-  margin: 0.8em;
+  margin: 0.8em auto 0.8em auto;
+  /* margin-left: auto;
+  margin-right: auto; */
   border-radius: 8px;
   box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
+  background: white;
 }
 .head {
   display: flex;
@@ -133,7 +141,68 @@ header {
   justify-content: center;
 }
 .reactIcon {
+  cursor: pointer;
 }
 .numbers {
   /* display: none; */
+}
+
+.clickForm {
+  position: sticky;
+  bottom: 30px;
+  left: 94%;
+  width: 2em;
+  height: 2em;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.247);
+  cursor: pointer;
+}
+[data-title]:hover::after {
+  visibility: visible;
+}
+[data-title]::after {
+  content: attr(data-title);
+  width: 8em;
+  padding: 0.5em;
+  background: black;
+  color: white;
+  font-size: 0.8rem;
+  position: absolute;
+  top: -1px;
+  right: 30px;
+  border-radius: 8px;
+  visibility: hidden;
+  /* transition: all 0.7s ease; */
+}
+.alertBox {
+  position: sticky;
+  bottom: 70%;
+  left: 80%;
+  width: auto;
+  font-size: 1.2rem;
+  padding: 0.2em 0.8rem 0.2rem 0.8rem;
+  border-radius: 5px;
+  color: white;
+  visibility: hidden;
+}
+.red {
+  visibility: visible;
+  background: rgb(243, 40, 40);
+}
+.blue {
+  visibility: visible;
+  background: blue;
+}
+.green {
+  visibility: visible;
+  background: linear-gradient(to right, #56ab2f, #a8e063);
+}
+.black {
+  visibility: visible;
+  background: black;
 }

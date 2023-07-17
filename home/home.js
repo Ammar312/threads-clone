@@ -33,9 +33,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+
+const clickForm = document.querySelector("#clickForm");
+clickForm.addEventListener("click", () => {
+  document.querySelector("#createPostForm").style.display = "flex";
+  clickForm.style.display = "none";
+});
+
 const form = document.querySelector("#form");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  document.querySelector("#createPostForm").style.display = "none";
+  clickForm.style.display = "flex";
   const textInput = document.querySelector("#textInput").value;
   const auth = getAuth();
   onAuthStateChanged(auth, async (user) => {
@@ -60,6 +69,7 @@ form.addEventListener("submit", async (e) => {
         form.reset();
 
         console.log("Document written with ID: ", docRef.id);
+        displayAlert("Posted", "green");
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -109,6 +119,7 @@ window.addEventListener("load", () => {
       likeDiv.classList.add("likeDiv");
       const likeSpan = document.createElement("span");
       likeSpan.classList.add("reactIcon");
+      likeSpan.id = "likeReactIcon";
       likeSpan.innerHTML = `<i class="bi bi-hand-thumbs-up"></i>`;
       const likeNumbersSpan = document.createElement("span");
       likeNumbersSpan.classList.add("numbers");
@@ -124,6 +135,7 @@ window.addEventListener("load", () => {
       heartDiv.classList.add("likeDiv");
       const heartSpan = document.createElement("span");
       heartSpan.classList.add("reactIcon");
+      heartSpan.id = "heartReactIcon";
       heartSpan.innerHTML = `<i class="bi bi-heart"></i>`;
       const heartNumbersSpan = document.createElement("span");
       heartNumbersSpan.classList.add("numbers");
@@ -151,6 +163,12 @@ window.addEventListener("load", () => {
       heartSpan.addEventListener("click", () =>
         heartIncrement(doc.id, doc.data())
       );
+      if (doc.data().likeIncrement === 0) {
+        likeNumbersSpan.style.display = "none";
+      }
+      if (doc.data().heartIncrement === 0) {
+        heartNumbersSpan.style.display = "none";
+      }
     });
   });
 });
@@ -167,9 +185,9 @@ const deletePostFunc = async (id) => {
     // Check if the current user is the owner of the post
     if (postData.userUid === currentUserUID) {
       await deleteDoc(postDocRef);
-      console.log("Post deleted successfully");
+      displayAlert(" Deleted successfully", "green");
     } else {
-      console.log("You are not authorized to delete this post");
+      displayAlert("You are not authorized to delete this post", "red");
     }
   } catch (error) {
     console.error("Error deleting post: ", error);
@@ -204,13 +222,14 @@ const likeIncrement = async (id, value) => {
   const uid = sessionStorage.getItem("currentUserUID");
   const washingtonRef = doc(db, "thread", id);
   if (value.likeArray.includes(uid)) {
-    alert("You liked the post");
     await updateDoc(washingtonRef, {
       likeIncrement: increment(-1),
     });
     await updateDoc(washingtonRef, {
       likeArray: arrayRemove(uid),
     });
+    document.querySelector("#likeReactIcon").style.color = "black";
+    displayAlert("Unliked", "black");
   } else {
     await updateDoc(washingtonRef, {
       likeIncrement: increment(1),
@@ -218,16 +237,39 @@ const likeIncrement = async (id, value) => {
     await updateDoc(washingtonRef, {
       likeArray: arrayUnion(uid),
     });
+    document.querySelector("#likeReactIcon").style.color = "blue";
+    displayAlert("Liked", "blue");
   }
 };
 const heartIncrement = async (id, value) => {
+  const uid = sessionStorage.getItem("currentUserUID");
   const washingtonRef = doc(db, "thread", id);
-  await updateDoc(washingtonRef, {
-    heartIncrement: increment(1),
-  });
-  // if (value.heartIncrement === 0) {
-  //   document.querySelector("#heartNumbers").style.display = "none";
-  // } else {
-  //   document.querySelector("#heartNumbers").style.display = "block";
-  // }
+  if (value.heartArray.includes(uid)) {
+    await updateDoc(washingtonRef, {
+      heartIncrement: increment(-1),
+    });
+    await updateDoc(washingtonRef, {
+      heartArray: arrayRemove(uid),
+    });
+    document.querySelector("#heartReactIcon").style.color = "black";
+  } else {
+    await updateDoc(washingtonRef, {
+      heartIncrement: increment(1),
+    });
+    await updateDoc(washingtonRef, {
+      heartArray: arrayUnion(uid),
+    });
+    document.querySelector("#heartReactIcon").style.color = "red";
+    displayAlert("Love", "red");
+  }
+};
+const alertBox = document.querySelector("#alertBox");
+const displayAlert = (txt, clss) => {
+  alertBox.textContent = txt;
+  alertBox.classList.add(clss);
+  // remove alert
+  setTimeout(() => {
+    alertBox.textContent = "";
+    alertBox.classList.remove(clss);
+  }, 2000);
 };
